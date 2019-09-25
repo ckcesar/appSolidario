@@ -1,0 +1,15 @@
+Falta fazer no Front End;
+
+*Lista organização imagem e nome na lista;
+*Lista campanha => mostrar uma porcentagem de qauntas pessoas ja ajudaram, se estiver 100% nem abrir a  campanha;
+ Validações => vendeu a data da campanha não entrar mais nela;
+*Lista com dados do amiguinho com imagem padrão de uma cartinha;
+*Detalhe do amiguinho;
+*Confirmação dos dados, campos => nome,e-mail,telefone,senha;
+*Mensagem Alert(agradecendo);
+
+*Menu esconder ao chamar a nova tela, no momento ao chamar uma tela pelo menu, a tela abre
+ mais não esconde o menu;
+*Ver quem ajudou, ao entrar com os dados mostrar => Igual a lista com dados do amiguinho;
+*No Ver quem ajudou se for a senha do responsável da campanha, mostrar a lista igual das campanhas. => a
+ diferença que ao entrar na campanha não vai conseguir adotar o amiguinho, mais vai ser quem foi ajudado;
