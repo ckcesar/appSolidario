@@ -1,0 +1,282 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema app_solidario
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema app_solidario
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `app_solidario` DEFAULT CHARACTER SET utf8 ;
+USE `app_solidario` ;
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`estado`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`estado` (
+  `id` INT NOT NULL,
+  `nome` VARCHAR(45) NULL,
+  `sigla` CHAR(2) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`cidade`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`cidade` (
+  `id` INT NOT NULL,
+  `cidade` VARCHAR(45) NULL,
+  `estado_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_cidade_estado1_idx` (`estado_id` ASC),
+  CONSTRAINT `fk_cidade_estado1`
+    FOREIGN KEY (`estado_id`)
+    REFERENCES `app_solidario`.`estado` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`orgao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`orgao` (
+  `id` INT NOT NULL,
+  `cnpj` VARCHAR(45) NULL,
+  `razaosocial` VARCHAR(45) NULL,
+  `datacadastro` DATETIME NULL,
+  `nome` VARCHAR(45) NULL,
+  `status` CHAR(2) NULL,
+  `cidade_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_orgao_cidade1_idx` (`cidade_id` ASC),
+  CONSTRAINT `fk_orgao_cidade1`
+    FOREIGN KEY (`cidade_id`)
+    REFERENCES `app_solidario`.`cidade` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`cargo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`cargo` (
+  `id` INT NOT NULL,
+  `nome` VARCHAR(45) NULL,
+  `status` CHAR(2) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`pessoa`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`pessoa` (
+  `id` INT NOT NULL,
+  `nome` VARCHAR(45) NULL,
+  `email` VARCHAR(45) NULL,
+  `datacadastro` DATETIME NULL,
+  `status` CHAR(2) NULL,
+  `cidade_id` INT NOT NULL,
+  `cpf` VARCHAR(45) NULL,
+  `cargo_id` INT NOT NULL,
+  `datanascimento` DATETIME NULL,
+  `senha` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_pessoa_cidade1_idx` (`cidade_id` ASC),
+  INDEX `fk_pessoa_cargo1_idx` (`cargo_id` ASC),
+  CONSTRAINT `fk_pessoa_cidade1`
+    FOREIGN KEY (`cidade_id`)
+    REFERENCES `app_solidario`.`cidade` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pessoa_cargo1`
+    FOREIGN KEY (`cargo_id`)
+    REFERENCES `app_solidario`.`cargo` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`telefone`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`telefone` (
+  `id` INT NOT NULL,
+  `telefone` VARCHAR(45) NULL,
+  `status` CHAR(2) NULL,
+  `pessoa_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_telefone_pessoa_idx` (`pessoa_id` ASC),
+  CONSTRAINT `fk_telefone_pessoa`
+    FOREIGN KEY (`pessoa_id`)
+    REFERENCES `app_solidario`.`pessoa` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`endereco`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`endereco` (
+  `id` INT NOT NULL,
+  `bairro` VARCHAR(45) NULL,
+  `numero` VARCHAR(45) NULL,
+  `complemento` VARCHAR(45) NULL,
+  `pessoa_id` INT NOT NULL,
+  `orgao_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_endereco_pessoa1_idx` (`pessoa_id` ASC),
+  INDEX `fk_endereco_orgao1_idx` (`orgao_id` ASC),
+  CONSTRAINT `fk_endereco_pessoa1`
+    FOREIGN KEY (`pessoa_id`)
+    REFERENCES `app_solidario`.`pessoa` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_endereco_orgao1`
+    FOREIGN KEY (`orgao_id`)
+    REFERENCES `app_solidario`.`orgao` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`orgao_has_pessoa`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`orgao_has_pessoa` (
+  `id` INT NOT NULL,
+  `pessoa_id` INT NOT NULL,
+  `orgao_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_orgao_has_pessoa_pessoa1_idx` (`pessoa_id` ASC),
+  INDEX `fk_orgao_has_pessoa_orgao1_idx` (`orgao_id` ASC),
+  CONSTRAINT `fk_orgao_has_pessoa_pessoa1`
+    FOREIGN KEY (`pessoa_id`)
+    REFERENCES `app_solidario`.`pessoa` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_orgao_has_pessoa_orgao1`
+    FOREIGN KEY (`orgao_id`)
+    REFERENCES `app_solidario`.`orgao` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`campanha`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`campanha` (
+  `id` INT NOT NULL,
+  `nome` VARCHAR(45) NULL,
+  `datainicial` DATETIME NULL,
+  `datafinal` DATETIME NULL,
+  `status` CHAR(2) NULL,
+  `orgao_id` INT NOT NULL,
+  `observacao` TEXT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_campanha_orgao1_idx` (`orgao_id` ASC),
+  CONSTRAINT `fk_campanha_orgao1`
+    FOREIGN KEY (`orgao_id`)
+    REFERENCES `app_solidario`.`orgao` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`residente_campanha`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`residente_campanha` (
+  `id` INT NOT NULL,
+  `status` CHAR(2) NULL,
+  `pessoa_id` INT NOT NULL,
+  `campanha_id` INT NOT NULL,
+  `observacao` TEXT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_residente_campanha_pessoa1_idx` (`pessoa_id` ASC),
+  INDEX `fk_residente_campanha_campanha1_idx` (`campanha_id` ASC),
+  CONSTRAINT `fk_residente_campanha_pessoa1`
+    FOREIGN KEY (`pessoa_id`)
+    REFERENCES `app_solidario`.`pessoa` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_residente_campanha_campanha1`
+    FOREIGN KEY (`campanha_id`)
+    REFERENCES `app_solidario`.`campanha` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`pessoa_campanha`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`pessoa_campanha` (
+  `id` INT NOT NULL,
+  `status` CHAR(2) NULL,
+  `presente` CHAR(2) NULL,
+  `valor` DECIMAL(10,2) NULL,
+  `pessoa_id` INT NOT NULL,
+  `residente_campanha_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_pessoa_campanha_pessoa1_idx` (`pessoa_id` ASC),
+  INDEX `fk_pessoa_campanha_residente_campanha1_idx` (`residente_campanha_id` ASC),
+  CONSTRAINT `fk_pessoa_campanha_pessoa1`
+    FOREIGN KEY (`pessoa_id`)
+    REFERENCES `app_solidario`.`pessoa` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pessoa_campanha_residente_campanha1`
+    FOREIGN KEY (`residente_campanha_id`)
+    REFERENCES `app_solidario`.`residente_campanha` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`midia`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`midia` (
+  `id` INT NOT NULL,
+  `url` TEXT NULL,
+  `status` CHAR(1) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `app_solidario`.`midia_has_orgao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `app_solidario`.`midia_has_orgao` (
+  `id` INT NOT NULL,
+  `midia_id` INT NOT NULL,
+  `orgao_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_midia_has_orgao_midia1_idx` (`midia_id` ASC),
+  INDEX `fk_midia_has_orgao_orgao1_idx` (`orgao_id` ASC),
+  CONSTRAINT `fk_midia_has_orgao_midia1`
+    FOREIGN KEY (`midia_id`)
+    REFERENCES `app_solidario`.`midia` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_midia_has_orgao_orgao1`
+    FOREIGN KEY (`orgao_id`)
+    REFERENCES `app_solidario`.`orgao` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
