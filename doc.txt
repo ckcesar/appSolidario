@@ -1,5 +1,4 @@
 Falta fazer no Front End;
-
 *Menu esconder ao chamar a nova tela, no momento ao chamar uma tela pelo menu, a tela abre
  mais não esconde o menu; => ok
 *Lista organização imagem e nome na lista; => ok
@@ -11,12 +10,38 @@ E colocar seta voltar; => ok
 *Confirmação dos dados, campos => nome,e-mail,telefone,senha; Com setas e rotas; => ok;
 *Mensagem Alert(agradecendo) e voltando a tela inicial; => ok;
 *Colocar nome e logo; => ok
+*validar e formatar campos dos formulários;(mascara e-mail e telefone) => ok
+*Depois de confirmar ajuda, linkar para uma tela mostrando os termos do App e com o botão
+Record not found or an ather user changed this record;
+voltar a tela inicial; => ok, no momento deixar na observação da pessoa e coloquei no alert;
+*Ver quem ajudou, ao entrar com os dados mostrar => Igual a lista com dados do amiguinho; => ok
 
-*validar e formatar campos dos formulários;
 *Tratar rota tela por tela;
 *carregando tipo tela do google;
 
-
-*Ver quem ajudou, ao entrar com os dados mostrar => Igual a lista com dados do amiguinho;
+------Fazer Depois de lançar o App;------
 *No Ver quem ajudou se for a senha do responsável da campanha, mostrar a lista igual das campanhas. => a
  diferença que ao entrar na campanha não vai conseguir adotar o amiguinho, mais vai ser quem foi ajudado;
+
+===========================================================================
+
+NO ANGULAR
+Conectar ao servidor PHP => ok;
+Verificar se esta com internet em todas as telas;
+Deixar url do site Global;
+
+NO PHP LISTAGEM E RESPOSTA JSON;
+Listar Cidade; => ok
+Listar organização referênte a cidade; => ok
+Listar campanha referênte a organização; =>ok
+Listar amiguinho referênte a campanha; => ok
+Mostrar amiguinho e suas observações no detalhe amigo; => ok
+Ajudar o amiguinho e cadastrar dados; => ok
+
+Listar amiguinho que ajudou;
+Tratar Notificação;
+
+------Fazer Depois de lançar o App;------
+Tratar porcentagem das camapanhas referênte os amiguinhos escolhidos; => Depois de lançado
+
+
