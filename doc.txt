@@ -15,9 +15,10 @@ E colocar seta voltar; => ok
 Record not found or an ather user changed this record;
 voltar a tela inicial; => ok, no momento deixar na observação da pessoa e coloquei no alert;
 *Ver quem ajudou, ao entrar com os dados mostrar => Igual a lista com dados do amiguinho; => ok
+*carregando loading; => ok
 
 *Tratar rota tela por tela;
-*carregando tipo tela do google;
+
 
 ------Fazer Depois de lançar o App;------
 *No Ver quem ajudou se for a senha do responsável da campanha, mostrar a lista igual das campanhas. => a
@@ -37,11 +38,10 @@ Listar campanha referênte a organização; =>ok
 Listar amiguinho referênte a campanha; => ok
 Mostrar amiguinho e suas observações no detalhe amigo; => ok
 Ajudar o amiguinho e cadastrar dados; => ok
+Listar amiguinho que ajudou; => ok
 
-Listar amiguinho que ajudou;
 Tratar Notificação;
 
 ------Fazer Depois de lançar o App;------
-Tratar porcentagem das camapanhas referênte os amiguinhos escolhidos; => Depois de lançado
-
-
+Tratar porcentagem das camapanhas referênte os amiguinhos escolhidos;
+Responsavel verificar quem ajudou, acessar via url no navegador, com usuário e senha;
